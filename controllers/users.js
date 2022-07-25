@@ -44,6 +44,12 @@ module.exports = {
 
     },
     deleteData: (req, res) => {
+        let data = JSON.parse(fs.readFileSync('./db.json'));
 
+        let idx = data.users.findIndex(val => val.id == req.params.id);
+
+        data.users.splice(idx, 1);
+        fs.writeFileSync('./db.json', JSON.stringify(data));
+        res.status(200).send(JSON.parse(fs.readFileSync('./db.json')).users)
     }
 }
