@@ -1,8 +1,9 @@
 const express = require('express');
 const route = express.Router();
-const { getData } = require('../controllers/users');
+const { getData, addData } = require('../controllers/users');
 
-route.get('/get', getData);
+route.get('/', getData);
+route.post('/', addData);
 
 
 module.exports = route;

@@ -10,16 +10,16 @@ module.exports = {
                 for (const prop in req.query) {
                     check.push(val[prop] == req.query[prop]);
                 }
-                if(!check.includes(false)){
+                if (!check.includes(false)) {
                     return val
                 }
             })
 
-            if(filterData.length==0){
+            if (filterData.length == 0) {
                 res.status(400).send({
-                    error:'Data not found ⚠️'
+                    error: 'Data not found ⚠️'
                 });
-            }else{
+            } else {
                 res.status(200).send(filterData);
             }
 
@@ -28,7 +28,17 @@ module.exports = {
         }
     },
     addData: (req, res) => {
+        // Membaca data yg sudah ada
+        let usersData = JSON.parse(fs.readFileSync('./db.json')).users;
+        // Menambahkan data baru
+        usersData.push({
+            id: usersData[usersData.length - 1].id + 1,
+            ...req.body
+        })
 
+        // Menulis ulang data terbaru
+        fs.writeFileSync('./db.json', JSON.stringify(usersData));
+        res.status(200).send(fs.readFileSync('./db.json'));
     },
     updateData: (req, res) => {
 
