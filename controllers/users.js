@@ -29,16 +29,16 @@ module.exports = {
     },
     addData: (req, res) => {
         // Membaca data yg sudah ada
-        let usersData = JSON.parse(fs.readFileSync('./db.json')).users;
+        let data = JSON.parse(fs.readFileSync('./db.json'));
         // Menambahkan data baru
-        usersData.push({
-            id: usersData[usersData.length - 1].id + 1,
+        data.users.push({
+            id: data.users[data.users.length - 1].id + 1,
             ...req.body
         })
 
         // Menulis ulang data terbaru
-        fs.writeFileSync('./db.json', JSON.stringify(usersData));
-        res.status(200).send(fs.readFileSync('./db.json'));
+        fs.writeFileSync('./db.json', JSON.stringify(data));
+        res.status(200).send(JSON.parse(fs.readFileSync('./db.json')).users);
     },
     updateData: (req, res) => {
 
