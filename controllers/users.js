@@ -41,7 +41,14 @@ module.exports = {
         res.status(200).send(JSON.parse(fs.readFileSync('./db.json')).users);
     },
     updateData: (req, res) => {
+        let data = JSON.parse(fs.readFileSync('./db.json'));
 
+        let idx = data.users.findIndex(val => val.id == req.params.id);
+
+        data.users[idx] = { ...data.users[idx], ...req.body };
+
+        fs.writeFileSync('./db.json', JSON.stringify(data));
+        res.status(200).send(JSON.parse(fs.readFileSync('./db.json')).users);
     },
     deleteData: (req, res) => {
         let data = JSON.parse(fs.readFileSync('./db.json'));
